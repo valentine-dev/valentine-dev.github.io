@@ -1,6 +1,6 @@
 ## Projects
 
-# Address Management System (AMS) - A Set of RESTful API Endpoints
+# Local Calling Area (LCA) Web Application
 - Node.js, JavaScript (ES6+)
 - Java 8
 - Google Cloud Platform
