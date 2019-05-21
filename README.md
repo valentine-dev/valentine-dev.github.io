@@ -6,12 +6,13 @@
 - Google Cloud Platform
 
 ## TELUS: Address Management System (AMS) - A Set of RESTful API Endpoints
-- Design, Testing: Swagger/OpenAPI 3.0
+Set up & explore Elasticsearch in GCP through ETL, implement RESTful API functions using Elasticsearch
+- Design, Testing: Swagger/OpenAPI 3.0, Stoplight
 - Frontend: React, jQuery, Bootstrap, JavaScript (ES6+)
 - Backend: Java 8
 - Database, Search Engine: Oraccle, Elasticsearch 7, ReadonlyREST (Security for Elasticsearch)
 - Framework, Tools: Spring Boot 2, Maven, GTS/Eclipse
-- Cloud Computing: Google Cloud Platform (GKE)
+- Cloud Computing: Google Cloud Platform (GCP)
 
 
 ## Welcome to GitHub Pages 
