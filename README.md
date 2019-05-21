@@ -1,4 +1,19 @@
-## Welcome to GitHub Pages from Valentine Wu
+## Projects
+
+# Address Management System (AMS) - A Set of RESTful API Endpoints
+- Node.js, JavaScript (ES6+)
+- Java 8
+- Google Cloud Platform
+
+# Address Management System (AMS) - A Set of RESTful API Endpoints
+- React, jQuery, Bootstrap, JavaScript (ES6+)
+- Java 8
+- Elasticsearch 7, ReadonlyREST plugin for security
+- Spring Boot 2
+- Google Cloud Platform
+
+
+## Welcome to GitHub Pages 
 
 You can use the [editor on GitHub](https://github.com/valentine-dev/valentine-dev.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
 
