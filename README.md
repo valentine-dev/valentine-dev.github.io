@@ -6,11 +6,12 @@
 - Google Cloud Platform
 
 ## TELUS: Address Management System (AMS) - A Set of RESTful API Endpoints
-- React, jQuery, Bootstrap, JavaScript (ES6+)
-- Java 8
-- Elasticsearch 7, ReadonlyREST plugin for security
-- Spring Boot 2
-- Google Cloud Platform
+- Design, Testing: Swagger/OpenAPI 3.0
+- Frontend: React, jQuery, Bootstrap, JavaScript (ES6+)
+- Backend: Java 8
+- Database, Search Engine: Oraccle, Elasticsearch 7, ReadonlyREST (Security for Elasticsearch)
+- Framework, Tools: Spring Boot 2, Maven, GTS/Eclipse
+- Cloud Computing: Google Cloud Platform (GKE)
 
 
 ## Welcome to GitHub Pages 
