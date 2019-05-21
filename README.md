@@ -1,11 +1,11 @@
-## Projects
+# Projects
 
-# Local Calling Area (LCA) Web Application
+## Local Calling Area (LCA) Web Application
 - Node.js, JavaScript (ES6+)
 - Java 8
 - Google Cloud Platform
 
-# Address Management System (AMS) - A Set of RESTful API Endpoints
+## Address Management System (AMS) - A Set of RESTful API Endpoints
 - React, jQuery, Bootstrap, JavaScript (ES6+)
 - Java 8
 - Elasticsearch 7, ReadonlyREST plugin for security
