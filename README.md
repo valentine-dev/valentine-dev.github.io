@@ -1,9 +1,9 @@
 # Projects
 
 ## TELUS: Local Calling Area (LCA) Web Application
-- Node.js, JavaScript (ES6+)
+- JavaScript (ES6+), React JS, Express, Node.js
 - Java 8
-- Google Cloud Platform
+- Firebase on Google Cloud Platform
 
 ## TELUS: Address Management System (AMS) - A Set of RESTful API Endpoints
 Set up & explore Elasticsearch in GCP, implement RESTful API functions using Elasticsearch
