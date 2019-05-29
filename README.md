@@ -3,7 +3,7 @@
 ## TELUS: Local Calling Area (LCA) Web Application
 - JavaScript (ES6+), React JS, Express, Node.js
 - Java 8
-- Cloud Firebase
+- Cloud Firestore
 
 ## TELUS: Address Management System (AMS) - A Set of RESTful API Endpoints
 Set up & explore Elasticsearch in GCP, implement RESTful API functions using Elasticsearch
