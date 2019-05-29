@@ -1,3 +1,8 @@
+# Training
+
+## Fundamentals of Securing Elasticsearch
+Course Outline: https://training.elastic.co/static/pdf/fundamentals-of-securing-elasticsearch.pdf
+
 # Projects
 
 ## TELUS: Local Calling Area (LCA) Web Application
