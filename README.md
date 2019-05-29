@@ -15,7 +15,7 @@ Set up & explore Elasticsearch in GCP, implement RESTful API functions using Ela
 - Design, Testing: Swagger/OpenAPI 3.0, Stoplight
 - Frontend: React, jQuery, Bootstrap, JavaScript (ES6+)
 - Backend: Java 8
-- Database, Search Engine: Oraccle, Elasticsearch 7, ReadonlyREST (Security for Elasticsearch)
+- Database, Search Engine: Oracle 12g, Elasticsearch 7, ReadonlyREST (Security for Elasticsearch)
 - Framework, Tools: Spring Boot 2, Maven, GTS/Eclipse
 - Cloud Computing: Google Cloud Platform (GCP)
 
