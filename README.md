@@ -3,6 +3,14 @@
 ## Fundamentals of Securing Elasticsearch
 Course Outline: https://training.elastic.co/static/pdf/fundamentals-of-securing-elasticsearch.pdf
 
+# Skill-set
+- Java 8+ & Java EE
+- JavaScript (ES6+)
+  - [Node.js - JavaScript runtime built on Chrome's V8 JavaScript engine](./nodejs)
+  - [React – JavaScript library for building user interfaces](./react)
+- Cloud Computing (Google Cloud Platform)
+  - [Cloud Firestore - flexible, scalable NoSQL cloud database](https://github.com/valentine-dev/CloudFirestoreApp)
+
 # Projects
 
 ## TELUS: Local Calling Area (LCA) Web Application
