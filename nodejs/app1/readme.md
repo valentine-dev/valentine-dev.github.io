@@ -1,6 +1,7 @@
 # Simple Node.js API Example: Get Stock Quote from TSX
 
 ## Steps to Run
+0. Copy app.js and package.json [at GitHub](https://github.com/valentine-dev/valentine-dev.github.io/tree/master/nodejs/app1)
 1. Install Node.js
 2. Run "npm install" to Get Dependencies
 3. Run "node app.js" to Start Server
