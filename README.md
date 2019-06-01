@@ -5,9 +5,9 @@ Course Outline: https://training.elastic.co/static/pdf/fundamentals-of-securing-
 
 # Skill-set
 - Java 8+ & Java EE
-- JavaScript (ES6+): React, Node.js, jQuery, Bootstrap
-  - Sample Code: [Node.js - JavaScript runtime built on Chrome's V8 JavaScript engine](./nodejs)
+- JavaScript (ES6+): React, Node.js, Bootstrap, jQuery
   - Sample Code: [React – JavaScript library for building user interfaces](./react)
+  - Sample Code: [Node.js - JavaScript runtime built on Chrome's V8 JavaScript engine](./nodejs)
   - Sample Code: [Bootstrap - Most popular HTML, CSS, and JS library in the world](./bootstrap)
   - Sample Code: [jQuery - Fast, small, and feature-rich JavaScript library](./jquery)
 - Cloud Computing (Google Cloud Platform)
