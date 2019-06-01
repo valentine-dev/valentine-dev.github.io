@@ -1,4 +1,4 @@
-# Simple Node.js API Example: Get Stock Quote from TSX
+# Node.js API Example: Get Stock Quote from TSX
 
 ## Steps to Run
 0. Copy app.js and package.json [at GitHub](https://github.com/valentine-dev/valentine-dev.github.io/tree/master/nodejs/app1)
