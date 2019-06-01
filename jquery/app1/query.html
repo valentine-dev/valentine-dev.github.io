@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<title>Query</title>
+</head>
+<body>
+<script
+	src="https://code.jquery.com/jquery-3.3.1.min.js"
+	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	crossorigin="anonymous"></script>
+<script 
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" 
+	integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" 
+	crossorigin="anonymous"></script>    
+<script 
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" 
+	integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" 
+	crossorigin="anonymous"></script>
+<script>
+$( document ).ready(function() {
+	$("#message").hide();
+	$("#searchresult").hide(); 
+	$("#searchnoresult").hide();
+	
+	function updateUIAfterSubmit(){
+		$("#queryform :input").prop("disabled", true);
+		$("#message").text("Waiting for response ...");
+		$("#message").show();
+		$("#searchresult").hide();
+		$("#searchnoresult").hide();
+	}
+	
+	function updateUIAfterReceviedResponse(){
+		$("#queryform :input").prop("disabled", false);		
+		$("#message").hide('slow');
+	}
+	
+	$("#queryform").submit(function(e) {
+		updateUIAfterSubmit();
+		e.preventDefault(); 
+		$.ajax({
+			beforeSend: function(){
+			     // Handle the beforeSend event
+			},
+			method: "GET",
+			url: "/v1/resource/address/lpds/"+$('#query').val()
+		}).done(function(data) {
+			
+		   	// metadata
+		   	$('#addressId').val(data.Addresses[0].addressId);
+		   	$('#lpdsId').val(data.Addresses[0].referenceIds.LPDS_ID);
+		   	$('#fmsId').val(data.Addresses[0].referenceIds.FMS_ID);
+		   	$('#buildingId').val(data.Addresses[0].referenceIds.BUILDING_ID);
+		   	// address info
+		   	$('#address_unit').val(data.Addresses[0].unit);
+		   	$('#address_floor').val(data.Addresses[0].floor);
+		   	$('#address_streetNumberPrefix').val(data.Addresses[0].streetNumberPrefix);
+		   	$('#address_streetNumber').val(data.Addresses[0].streetNumber);
+		   	$('#address_streetNumberSuffix').val(data.Addresses[0].streetNumberSuffix);
+		   	$('#address_dirPrefix').val(data.Addresses[0].dirPrefix);
+		   	$('#address_streetTypePrefix').val(data.Addresses[0].streetTypePrefix);
+		   	$('#address_streetName').val(data.Addresses[0].streetName);
+		   	$('#address_streetTypeSuffix').val(data.Addresses[0].streetTypeSuffix);
+		   	$('#address_dirSuffix').val(data.Addresses[0].dirSuffix);
+		   	$('#address_city').val(data.Addresses[0].city);
+		   	$('#address_province').val(data.Addresses[0].province);
+		   	$('#address_postalCode').val(data.Addresses[0].postalCode);
+		   	$("#searchresult").show();
+		   
+		   	// all data fields
+		   	var result = {};
+		    function recurse (cur, prop) {		    	
+		        if ($.isArray(cur)) { // array is not a plain object		        	
+		        	var len = cur.length;
+		             for(var i=0; i<len; i++) {
+		                 recurse(cur[i], prop + "[" + i + "]");
+		             }
+		            if (len == 0) {
+		                result[prop] = [];
+		            }
+		        } else if (!$.isPlainObject(cur)) {
+		            result[prop] = cur; 
+		        } else {
+		        	if ($.isEmptyObject(cur) && prop) {
+		        		result[prop] = {};
+		        	} else {
+		        		for (var p in cur) {
+			                recurse(cur[p], prop ? prop+"."+p : p);
+			            }	
+		        	}
+		   		}
+		   	}
+		   	recurse(data, "");		   	
+		   	
+		   	$('#propertyName').children('option:not(:first)').remove();
+		   	// show UI
+		   	$.each(result, function(name, value) {		   		
+		   	    $('#propertyName').append($("<option />").val(name).text(name));
+		   	});
+		   	$flattenResult = result; // since result is not available in change listener
+		   	
+		   	// listener
+		    $('#propertyName').change(function() {
+		    	$('#propertyValue').val($flattenResult[$(this).val()]);
+		   	});
+		}).fail(function() {
+		  	$("#searchnoresult").show();
+		}).always(function() {
+			updateUIAfterReceviedResponse();
+		});;		
+	});
+});
+
+$( document ).ajaxComplete(function() {
+	$( ".log" ).text( "Triggered ajaxComplete handler." );
+});
+</script>
+
+<div class="container">
+<div class="alert alert-info" role="alert" id="message">
+</div>
+<!-- Search Form -->
+<form id="queryform" class="text-center">
+  <div class="form-group">    
+	<label for="query">Please enter LPDS ID:</label>
+    <input type="text" class="form-control" id="query" placeholder="LPDS ID" required autofocus pattern="[0-9]+" title="LPDS ID should have numbers only and at least one number"/>    
+  </div>
+  <button type="submit" class="btn btn-primary">Search</button>
+  <p class="mt-5 mb-3 text-muted">&copy; 2018-2019</p>
+</form>
+
+<!-- Search Result -->
+<div class="alert alert-success" role="alert" id="searchresult">
+  <h4 class="alert-heading">Search Result:</h4>
+  <form>
+  <div class="card">
+    <div class="card-header text-center">Reference IDs</div>
+  	<div class="card-body">
+	  <div class="form-group">
+	    <label for="addressId">Address ID:</label>
+	    <input type="text" class="form-control" id="addressId" readonly />
+	  </div>
+	  <div class="form-group">
+	    <label for="lpdsId">LPDS ID:</label>
+	    <input type="text" class="form-control" id="lpdsId" readonly />
+	  </div>
+	  <div class="form-group">
+	    <label for="fmsId">FMS ID:</label>
+	    <input type="text" class="form-control" id="fmsId" readonly />
+	  </div>
+	  <div class="form-group">
+	    <label for="buildingId">Building ID:</label>
+	    <input type="text" class="form-control" id="buildingId" readonly />
+	  </div>
+	</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header text-center">Address Information</div>
+  	<div class="card-body">	  
+  <div class="form-group">
+    <label for="address_unit">Unit:</label>
+    <input type="text" class="form-control" id="address_unit" readonly />
+  </div>
+  <div class="form-group">
+    <label for="address_floor">Floor:</label>
+    <input type="text" class="form-control" id="address_floor" readonly />
+  </div>
+  <div class="form-group">
+    <label for="address_streetNumberPrefix">Street Number Prefix:</label>
+    <input type="text" class="form-control" id="address_streetNumberPrefix" readonly />
+  </div>
+  <div class="form-group">
+    <label for="address_streetNumber">Street Number:</label>
+    <input type="text" class="form-control" id="address_streetNumber" readonly />
+  </div>  
+  <div class="form-group">
+    <label for="address_streetNumberSuffix">Street Number Suffix:</label>
+    <input type="text" class="form-control" id="address_streetNumberSuffix" readonly />
+  </div>
+  <div class="form-group">
+    <label for="address_dirPrefix">Direction Prefix:</label>
+    <input type="text" class="form-control" id="address_dirPrefix" readonly />
+  </div>
+  <div class="form-group">
+    <label for="address_streetTypePrefix">Street Type Prefix:</label>
+    <input type="text" class="form-control" id="address_streetTypePrefix" readonly />
+  </div>
+  <div class="form-group">
+    <label for="address_streetName">Street Name:</label>
+    <input type="text" class="form-control" id="address_streetName" readonly />
+  </div>
+  <div class="form-group">
+    <label for="address_streetTypeSuffix">Street Type Suffix:</label>
+    <input type="text" class="form-control" id="address_streetTypeSuffix" readonly />
+  </div>
+  <div class="form-group">
+    <label for="address_dirSuffix">Direction Suffix:</label>
+    <input type="text" class="form-control" id="address_dirSuffix" readonly />
+  </div>
+  <div class="form-group">
+    <label for="address_city">City:</label>
+    <input type="text" class="form-control" id="address_city" readonly />
+  </div>
+  <div class="form-group">
+    <label for="address_province">Province:</label>
+    <input type="text" class="form-control" id="address_province" readonly />
+  </div>
+  <div class="form-group">
+    <label for="address_postalCode">Postal Code:</label>
+    <input type="text" class="form-control" id="address_postalCode" readonly />
+  </div>
+  </div>
+  </div>
+   
+  <div class="card">
+    <div class="card-header text-center">All Returned Values</div>
+  	<div class="card-body">
+	    <div class="form-group">
+	    <label for="propertyName">Property Name:</label>
+	    <select class="form-control" id="propertyName">
+	      	<option selected>Please select one property from below</option>
+	    	<option value="1">One</option>
+	    	<option value="2">Two</option>
+	  		<option value="3">Three</option>
+	    </select>
+	  	</div>
+	  	<div class="form-group">
+	    	<label for="propertyValue">Property Value:</label>
+	    	<textarea class="form-control" id="propertyValue" rows="3" readonly></textarea>
+	  	</div>
+  	</div>
+  </div>
+</form>
+</div>
+
+<!-- No Result -->
+<div class="alert alert-warning" role="alert" id="searchnoresult">
+	<h4 class="alert-heading">No Results Found.</h4>
+</div>
+
+</div>
+
+
+</body>
+
+</html>
