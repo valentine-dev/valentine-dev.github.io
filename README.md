@@ -6,10 +6,10 @@ Course Outline: https://training.elastic.co/static/pdf/fundamentals-of-securing-
 # Skill-set
 - Java 8+ & Java EE
 - JavaScript (ES6+): React, Node.js, Bootstrap, jQuery
-  - Sample Code: [React – JavaScript library for building user interfaces](./react)
-  - Sample Code: [Node.js - JavaScript runtime built on Chrome's V8 JavaScript engine](./nodejs)
-  - Sample Code: [Bootstrap - Most popular HTML, CSS, and JS library in the world](./bootstrap)
-  - Sample Code: [jQuery - Fast, small, and feature-rich JavaScript library](./jquery)
+  - Sample: [React – JavaScript library for building user interfaces](./react)([Source code](https://github.com/valentine-dev/real-time-stock-quotes))
+  - Sample: [Node.js - JavaScript runtime built on Chrome's V8 JavaScript engine](./nodejs)([Source code](https://github.com/valentine-dev/real-time-stock-quotes)
+  - Sample: [Bootstrap - Most popular HTML, CSS, and JS library in the world](./bootstrap) ([Source code](https://github.com/valentine-dev/jquery-bootstrap-apps))
+  - Sample: [jQuery - Fast, small, and feature-rich JavaScript library](./jquery)([Source code](https://github.com/valentine-dev/jquery-bootstrap-apps))
 - Cloud Computing (Google Cloud Platform)
   - Sample Code: [Cloud Firestore - flexible, scalable NoSQL cloud database](https://github.com/valentine-dev/CloudFirestoreApp)
 
