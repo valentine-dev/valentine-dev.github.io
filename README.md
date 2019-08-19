@@ -23,7 +23,7 @@ Course Outline: https://training.elastic.co/static/pdf/fundamentals-of-securing-
 ## TELUS: Address Management System (AMS) - A Set of RESTful API Endpoints
 Set up & explore Elasticsearch in GCP, implement RESTful API functions using Elasticsearch
 - Design, Testing: Swagger/OpenAPI 3.0, Stoplight
-- Frontend: React, jQuery, Bootstrap, JavaScript (ES6+) [Explore the AMS UI](https://valentine-dev.github.io/showroom/address-auto-complete/index.html)
+- Frontend: React, jQuery, Bootstrap, JavaScript (ES6+) -> [Go to explore the AMS UI](https://valentine-dev.github.io/showroom/address-auto-complete/index.html)
 - Backend: Java 8
 - Database, Search Engine: Oracle 12g, Elasticsearch 7, ReadonlyREST (Security for Elasticsearch)
 - Framework, Tools: Spring Boot 2, Maven, GTS/Eclipse
