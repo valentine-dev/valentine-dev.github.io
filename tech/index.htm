@@ -15,9 +15,9 @@
         width: 100%;
         height: 150px;
         resize: none;
-        border: 0;
+        border: 2px;
         background-color: lightblue;
-        margin: 20px 0 20px 0;
+        margin: 10px 0 10px 0;
       }
     </style>
 </head>
@@ -38,7 +38,7 @@
         </ol>
         <div id="codeDiv-20210524" style="display: none">
         [Java code in Jersey client]
-          <hr>
+          <br>
           <textarea class="code">
 @Schedule(hour = "*/2")
 public void updateVisitorUsername() {
@@ -105,9 +105,7 @@ private Client getTrustingAllCertsJerseyClient() {
   try {
     SSLContext ctx = SSLContext.getInstance(SSLCONTEXT_ALGORITHM_SSL);
     ctx.init(null, trustManagers, null);
-
     ClientConfig config = new DefaultClientConfig(JacksonJaxbJsonProvider.class);
-    // ClientConfig config = new DefaultClientConfig(); -- not working
     Map<String, Object> properties = config.getProperties();
     properties.put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, new HTTPSProperties(hostnameVerifier, ctx));
     return Client.create(config);
