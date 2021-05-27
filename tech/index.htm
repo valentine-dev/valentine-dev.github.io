@@ -25,7 +25,158 @@
   <h2 title="eTransfer less than $10 to donations@enjoyit.ca to help maintain this website">&#128151; Donations</h2>
   <h1>Enjoy Technologies!</h1>
   <h2>Solutions that work</h2>  
-  <p>2021-05-24: Schedule a job on Java EE 6 server to call REST API with JSON 
+  <p>2021-05-27: Schedule a job on Java EE 6 server to call REST API with only JSON
+    <ul>
+      <li class="problem"> Problem: Use HTTPS trusting all certificates and receive a JSON array </li>
+      <li class="solution"> Solution: <button id="btn-20210527" onclick="showCodeDiv('20210527')">Show code</button>
+        <ol>
+          <li>Use <a href="https://docs.oracle.com/javaee/6/tutorial/doc/bnboy.html">EJB Timer service (automatic timer)</a> on GlassFish 3.1.2.2</li>
+          <li>Use <a href="https://eclipse-ee4j.github.io/jersey.github.io/documentation/1.19.1/client-api.html">Jersey Client API</a> on GlassFish 3.1.2.2</li>
+          <li>Use <a href="https://eclipse-ee4j.github.io/jersey.github.io/documentation/1.19.1/json.html#json.jaxb.approach.section">Jersey JAXB Based JSON support</a></li>
+          <li>Use <a href="https://www.javadoc.io/doc/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.8.9/com/fasterxml/jackson/jaxrs/json/JacksonJaxbJsonProvider.html">both Jackson and JAXB annotations for flexible configuration</a></li>
+          <li>Use customized HTTPSProperties (with X509TrustManager and SSLContext) of ClientConfig to trust all certificates</li>
+        </ol>
+        <div id="codeDiv-20210527" style="display: none">
+          [Java code in Jersey client]
+          <br>
+          <textarea class="code">
+@Schedule(hour = "*/2")
+    public void updateVisitorUsername() {
+        try {
+        	logger.log(Level.INFO,"Running scheduled task: Get new visitors and update their usernames in DB2.");
+            
+        	// get list of new visitors
+        	Client restClient = getTrustingAllCertsJerseyClient();
+        	WebResource resource = restClient.resource(WORKDAY_CACHE_TABLE_URL_NEW_VISITORS);
+            try {
+            	ClientResponse clientResponse = resource
+            			.type(MediaType.APPLICATION_JSON)
+            			.accept(MediaType.APPLICATION_JSON)
+            			.header(WORKDAY_CACHE_TABLE_HEADER_API_KEY, WORKDAY_CACHE_TABLE_API_KEY)
+            	        .get(ClientResponse.class);
+            	
+        		if (clientResponse != null) {
+        			if (clientResponse.getClientResponseStatus() == ClientResponse.Status.OK) {
+	            	    List<WorkdayWorker> response = Arrays.asList(clientResponse.getEntity(WorkdayWorker[].class));
+	            	    
+	            	    logger.log(Level.INFO, "Number of new visitors: [" + response.size() + "]");
+	            	    
+		            	for (WorkdayWorker worker : response) {
+		            		
+		            		// TODO: update username in DB2
+		            		logger.log(Level.INFO, String.format("Updated visitor %s %s (id=%d)", worker.getFirst_name(), worker.getLast_name(), worker.getId()));
+		            	}
+		            	
+		            	logger.log(Level.INFO, "Usernames of new visitors have been udpated successfully");
+        			} else {
+        				logger.log(Level.SEVERE, "Reponse status is: " + clientResponse.getStatus() + " - " + clientResponse.getClientResponseStatus());
+        			}
+        		} else {
+        			logger.log(Level.SEVERE, "UpdateVisitorUsername: No data fetched from Workday Cache Table");
+            	}
+            } catch (UniformInterfaceException e) { //This exception is thrown if the status code >= 300
+            	logger.log(Level.SEVERE, "UniformInterfaceException was thrown by calling " + WORKDAY_CACHE_TABLE_URL_NEW_VISITORS, e);
+            }
+        } catch (Throwable t) {
+            logger.log(Level.SEVERE, "An exception was thrown in a scheduled method:", t);
+        }
+    }
+    
+    private Client getTrustingAllCertsJerseyClient() {
+    	
+    	TrustManager[] trustManagers = new X509TrustManager[] { new X509TrustManager() {
+
+    	    @Override
+    	    public X509Certificate[] getAcceptedIssuers() {
+    	        return null;
+    	    }
+
+    	    @Override
+    	    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+
+    	    }
+
+    	    @Override
+    	    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+
+    	    }
+    	}};
+    	HostnameVerifier hostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
+    	try {
+	    	SSLContext ctx = SSLContext.getInstance(SSLCONTEXT_ALGORITHM_SSL);
+	    	ctx.init(null, trustManagers, null);
+	    	
+	    	ClientConfig config = new DefaultClientConfig(); 
+	    	Map<String, Object> properties = config.getProperties();
+	    	properties.put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, new HTTPSProperties(hostnameVerifier, ctx));
+	    	config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+	    	return Client.create(config);
+    	} catch (KeyManagementException | NoSuchAlgorithmException e) {
+    		logger.log(Level.SEVERE, "An exception was thrown when setting up SSLContext:", e);
+            throw new RuntimeException(e);
+        }
+    }
+            </textarea>        
+            <hr>
+          [Java code in simple POJO format]
+            <br/>
+            <textarea class="code">
+public class Email {
+
+	private String email;
+    private String email_id;
+    private int id;
+    private int workday_worker_id;
+    
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getEmail_id() {
+		return email_id;
+	}
+	public void setEmail_id(String email_id) {
+		this.email_id = email_id;
+	}
+	public int getWorkday_worker_id() {
+		return workday_worker_id;
+	}
+	public void setWorkday_worker_id(int workday_worker_id) {
+		this.workday_worker_id = workday_worker_id;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+}
+
+            </textarea>
+          <hr>
+          [Maven pom.xml]
+            <br>
+            <textarea class="code">
+<dependency>
+    <groupId>com.sun.jersey</groupId>
+    <artifactId>jersey-client</artifactId>
+    <version>1.12</version>
+    <scope>provided</scope>
+</dependency>
+<dependency>
+    <groupId>com.sun.jersey</groupId>
+    <artifactId>jersey-json</artifactId>
+    <version>1.17.1</version>
+    <scope>provided</scope>
+</dependency>
+          </textarea>
+        </div>
+      </li>
+    </ul>
+  </p>
+  <p>2021-05-24: Schedule a job on Java EE 6 server to call REST API with JSON and XML
     <ul>
       <li class="problem"> Problem: Use HTTPS trusting all certificates and receive a JSON array </li>
       <li class="solution"> Solution: <button id="btn-20210524" onclick="showCodeDiv('20210524')">Show code</button>
@@ -178,6 +329,7 @@ public class Email {
 </dependency>
           </textarea>
         </div>
+      </li>
     </ul>
   </p>
   <p>100% disk usage on laptop
