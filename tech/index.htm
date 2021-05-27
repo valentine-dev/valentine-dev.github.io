@@ -8,9 +8,16 @@
    <meta name="Keywords" content="technologies,bc,vancouer,valentine,enjoyit,canada">
    <meta name="Description" content="Enjoy Tech">
    <style>
-    ul { list-style: none;}
-    ul li.problem:before  { content: '❓';}
-    ul li.solution:before { content: '✅';}
+      ul { list-style: none;}
+      ul li.problem:before  { content: '❓';}
+      ul li.solution:before { content: '✅';}
+      div.code {
+        width: 100%;
+        padding: 50px 0;
+        text-align: center;
+        background-color: lightblue;
+        margin-top: 20px;
+      }
     </style>
     <script>
       function showCodeDiv(divId) {
@@ -38,7 +45,7 @@
           <li>Use <a href="https://www.javadoc.io/doc/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.8.9/com/fasterxml/jackson/jaxrs/json/JacksonJaxbJsonProvider.html">both Jackson and JAXB annotations for flexible configuration</a></li>
           <li>Use customized HTTPSProperties (with X509TrustManager and SSLContext) of ClientConfig to trust all certificates</li>
         </ol>
-        <div id="codeDiv-20210524">
+        <div id="codeDiv-20210524" class="code">
           This is my DIV element.
         </div>
     </ul>
