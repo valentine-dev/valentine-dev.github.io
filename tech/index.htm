@@ -20,19 +20,6 @@
         display: none;
       }
     </style>
-    <script>
-      function showCodeDiv(divId) {
-        var codeDiv = document.getElementById("codeDiv-"+divId);
-        var btn = document.getElementById("btn-"+divId);
-        if (codeDiv.style.display === "none") {
-          codeDiv.style.display = "block";
-          btn.innerText = "Hide code";
-        } else {
-          codeDiv.style.display = "none";
-          btn.innerText = "Show code";
-        }
-      }
-    </script>
 </head>
 <body>
   <h2 title="eTransfer less than $10 to donations@enjoyit.ca to help maintain this website">&#128151; Donations</h2>
@@ -62,6 +49,18 @@
   </p>
 <hr/>
 <address>Please feel free to contact <a href="mailto:info@enjoyit.ca">info@enjoyit.ca</a> if you need any further information. We believe that you will enjoy our IT services!</address>
-
+<script>
+    function showCodeDiv(divId) {
+      var codeDiv = document.getElementById("codeDiv-"+divId);
+      var btn = document.getElementById("btn-"+divId);
+      if (codeDiv.style.display === "none") {
+        codeDiv.style.display = "block";
+        btn.innerText = "Hide code";
+      } else {
+        codeDiv.style.display = "none";
+        btn.innerText = "Show code";
+      }
+    }
+</script>
 </body>
 </html>
