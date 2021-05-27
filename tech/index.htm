@@ -23,10 +23,17 @@
       <li class="solution"> Solution: Run services.msc to disable Superfetch service</li>
     </ul>
   </p>
-  <p> Schedule a job to call REST API on Java EE 6 server
+  <p> Schedule a job on Java EE 6 server to call REST API with JSON 
     <ul>
-      <li class="problem"> Problem: Make REST call through HTTPS trusting all certificates </li>
-      <li class="solution"> Solution: Use <a href="https://docs.oracle.com/javaee/6/tutorial/doc/bnboy.html"EJB Timer service (automatic timer)</a> and Jersey REST client to trust all certificates from GlassFish 3.1.2.2</li>
+      <li class="problem"> Problem: Use HTTPS trusting all certificates and receive a JSON array </li>
+      <li class="solution"> Solution: 
+        <ol>
+          <li>Use <a href="https://docs.oracle.com/javaee/6/tutorial/doc/bnboy.html"EJB Timer service (automatic timer)</a> on GlassFish 3.1.2.2</li>
+          <li>Use <a href="https://eclipse-ee4j.github.io/jersey.github.io/documentation/1.19.1/client-api.html">Jersey Client API</a> on GlassFish 3.1.2.2</li>
+          <li>Use <a href="https://eclipse-ee4j.github.io/jersey.github.io/documentation/1.19.1/json.html#json.jaxb.approach.section">Jersey JAXB Based JSON support</li>
+          <li>Use <a href="https://www.javadoc.io/doc/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.8.9/com/fasterxml/jackson/jaxrs/json/JacksonJaxbJsonProvider.html">both Jackson and JAXB annotations for flexible configuration</li>
+          <li>Use the customized HTTPSProperties (with X509TrustManager and SSLContext) of ClientConfig to trust all certificates</li>
+        </ol>
     </ul>
   </p>
 <hr/>
