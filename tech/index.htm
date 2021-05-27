@@ -35,10 +35,8 @@
           <li>Use customized HTTPSProperties (with X509TrustManager and SSLContext) of ClientConfig to trust all certificates</li>
         </ol>
         <div id="codeDiv-20210524" class="code">
-          
-          <ul>
-            <li>Java code in Jersey client</li>
           <textarea style="border:0; width=100%; resize:none; height=100px;">
+          [Java code in Jersey client]
           @Schedule(hour = "*/2")
           public void updateVisitorUsername() {
               try {
@@ -115,9 +113,8 @@
                   throw new RuntimeException(e);
               }
           }
-          </textarea>
-          <li>Java code in simple JAXB bean implementation</li>
-          <textarea style="border:0; width=100%; resize:none; height=100px;">
+         
+          [Java code in simple JAXB bean implementation]
           @XmlRootElement
           public class Email {
 
@@ -159,22 +156,20 @@
               this.workday_worker_id = workday_worker_id;
             }
           }
+          
+          [Maven pom.xml]
+          <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>1.12</version>
+            <scope>provided</scope>
+          </dependency>
+          <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>2.8.9</version>
+          </dependency>
           </textarea>
-            <li>Maven pom.xml</li>
-          <textarea style="border:0; width=100%; resize:none; height=100px;">
-            <dependency>
-              <groupId>com.sun.jersey</groupId>
-              <artifactId>jersey-client</artifactId>
-              <version>1.12</version>
-              <scope>provided</scope>
-            </dependency>
-            <dependency>
-              <groupId>com.fasterxml.jackson.jaxrs</groupId>
-              <artifactId>jackson-jaxrs-json-provider</artifactId>
-              <version>2.8.9</version>
-            </dependency>
-          </textarea>
-          </ul>
         </div>
     </ul>
   </p>
