@@ -37,7 +37,9 @@
           <li>Use customized HTTPSProperties (with X509TrustManager and SSLContext) of ClientConfig to trust all certificates</li>
         </ol>
         <div id="codeDiv-20210524" class="code">
-          <ocde>
+          <p>
+          <code>Java code in Jersey client</code>
+          <pre>
           @Schedule(hour = "*/2")
           public void updateVisitorUsername() {
               try {
@@ -114,7 +116,70 @@
                   throw new RuntimeException(e);
               }
           }
-          </code>
+          </pre>
+          </p>
+          <p>
+          <code>Java code in simple JAXB bean implementation</code>
+          <pre>
+          @XmlRootElement
+          public class Email {
+
+            private String email;
+              private String email_id;
+              private boolean primary;
+              @XmlElement(name="public")
+              private boolean publicEmail;
+              private int workday_worker_id;
+
+            public String getEmail() {
+              return email;
+            }
+            public void setEmail(String email) {
+              this.email = email;
+            }
+            public String getEmail_id() {
+              return email_id;
+            }
+            public void setEmail_id(String email_id) {
+              this.email_id = email_id;
+            }
+            public boolean isPrimary() {
+              return primary;
+            }
+            public void setPrimary(boolean primary) {
+              this.primary = primary;
+            }
+            public boolean isPublicEmail() {
+              return publicEmail;
+            }
+            public void setPublicEmail(boolean publicEmail) {
+              this.publicEmail = publicEmail;
+            }
+            public int getWorkday_worker_id() {
+              return workday_worker_id;
+            }
+            public void setWorkday_worker_id(int workday_worker_id) {
+              this.workday_worker_id = workday_worker_id;
+            }
+          }
+          </pre>
+          </p>
+          <p>
+          <code>Maven pom.xml</code>
+          <pre>
+            <dependency>
+              <groupId>com.sun.jersey</groupId>
+              <artifactId>jersey-client</artifactId>
+              <version>1.12</version>
+              <scope>provided</scope>
+            </dependency>
+            <dependency>
+              <groupId>com.fasterxml.jackson.jaxrs</groupId>
+              <artifactId>jackson-jaxrs-json-provider</artifactId>
+              <version>2.8.9</version>
+            </dependency>
+          </pre>
+          </p>
         </div>
     </ul>
   </p>
