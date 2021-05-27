@@ -22,13 +22,13 @@
     </style>
     <script>
       function showCodeDiv(divId) {
-        var div = document.getElementById("codeDiv-"+divId);
+        var codeDiv = document.getElementById("codeDiv-"+divId);
         var btn = document.getElementById("btn-"+divId);
-        if (div.style.display === "none") {
-          div.style.display = "block";
+        if (codeDiv.style.display === "none") {
+          codeDiv.style.display = "block";
           btn.innerText = "Hide code";
         } else {
-          div.style.display = "none";
+          codeDiv.style.display = "none";
           btn.innerText = "Show code";
         }
       }
