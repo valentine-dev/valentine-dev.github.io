@@ -28,7 +28,7 @@
   <p>2021-05-24: Schedule a job on Java EE 6 server to call REST API with JSON 
     <ul>
       <li class="problem"> Problem: Use HTTPS trusting all certificates and receive a JSON array </li>
-      <li class="solution"> Solution: <button onclick="showCodeDiv('20210524')" id="btn-20210524">Show code</button>
+      <li class="solution"> Solution: <button id="btn-20210524">Show code</button>
         <ol>
           <li>Use <a href="https://docs.oracle.com/javaee/6/tutorial/doc/bnboy.html">EJB Timer service (automatic timer)</a> on GlassFish 3.1.2.2</li>
           <li>Use <a href="https://eclipse-ee4j.github.io/jersey.github.io/documentation/1.19.1/client-api.html">Jersey Client API</a> on GlassFish 3.1.2.2</li>
@@ -138,6 +138,7 @@
         btn.innerText = "Show code";
       }
     }
+    document.getElementById("btn-20210524").addEventListener("click", showCodeDiv("20210524"));
 </script>
 </body>
 </html>
