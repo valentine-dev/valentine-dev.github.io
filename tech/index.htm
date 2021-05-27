@@ -37,7 +37,84 @@
           <li>Use customized HTTPSProperties (with X509TrustManager and SSLContext) of ClientConfig to trust all certificates</li>
         </ol>
         <div id="codeDiv-20210524" class="code">
-          This is my DIV element.
+          <ocde>
+          @Schedule(hour = "*/2")
+          public void updateVisitorUsername() {
+              try {
+                logger.log(Level.INFO,"Running scheduled task: Get new visitors and update their usernames in DB2.");
+
+                // get list of new visitors
+                Client restClient = getTrustingAllCertsJerseyClient();
+                WebResource resource = restClient.resource(WORKDAY_CACHE_TABLE_URL_NEW_VISITORS);
+                  try {
+                    ClientResponse clientResponse = resource
+                        .type(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header(WORKDAY_CACHE_TABLE_HEADER_API_KEY, WORKDAY_CACHE_TABLE_API_KEY)
+                            .get(ClientResponse.class);
+
+                  if (clientResponse != null) {
+                    if (clientResponse.getClientResponseStatus() == ClientResponse.Status.OK) {
+                          List<WorkdayWorker> response = Arrays.asList(clientResponse.getEntity(WorkdayWorker[].class));
+
+                          logger.log(Level.INFO, "Number of new visitors: [" + response.size() + "]");
+
+                        for (WorkdayWorker worker : response) {
+
+                          // TODO: update username in DB2
+                          logger.log(Level.INFO, String.format("Updated visitor %s %s (id=%d)", worker.getFirst_name(), worker.getLast_name(), worker.getId()));
+                        }
+
+                        logger.log(Level.INFO, "Usernames of new visitors have been udpated successfully");
+                    } else {
+                      logger.log(Level.SEVERE, "Reponse status is: " + clientResponse.getStatus() + " - " + clientResponse.getClientResponseStatus());
+                    }
+                  } else {
+                    logger.log(Level.SEVERE, "UpdateVisitorUsername: No data fetched from Workday Cache Table");
+                    }
+                  } catch (UniformInterfaceException e) { //This exception is thrown if the status code >= 300
+                    logger.log(Level.SEVERE, "UniformInterfaceException was thrown by calling " + WORKDAY_CACHE_TABLE_URL_NEW_VISITORS, e);
+                  }
+              } catch (Throwable t) {
+                  logger.log(Level.SEVERE, "An exception was thrown in a scheduled method:", t);
+              }
+          }
+
+          private Client getTrustingAllCertsJerseyClient() {
+
+            TrustManager[] trustManagers = new X509TrustManager[] { new X509TrustManager() {
+
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+
+                @Override
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+
+                }
+
+                @Override
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+
+                }
+            }};
+            HostnameVerifier hostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
+            try {
+              SSLContext ctx = SSLContext.getInstance(SSLCONTEXT_ALGORITHM_SSL);
+              ctx.init(null, trustManagers, null);
+
+              ClientConfig config = new DefaultClientConfig(JacksonJaxbJsonProvider.class);
+              // ClientConfig config = new DefaultClientConfig(); -- not working
+              Map<String, Object> properties = config.getProperties();
+              properties.put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, new HTTPSProperties(hostnameVerifier, ctx));
+              return Client.create(config);
+            } catch (KeyManagementException | NoSuchAlgorithmException e) {
+              logger.log(Level.SEVERE, "An exception was thrown when setting up SSLContext:", e);
+                  throw new RuntimeException(e);
+              }
+          }
+          </code>
         </div>
     </ul>
   </p>
