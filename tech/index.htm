@@ -32,12 +32,11 @@
         <ol>
           <li>Use <a href="https://docs.oracle.com/javaee/6/tutorial/doc/bnboy.html">EJB Timer service (automatic timer)</a> on GlassFish 3.1.2.2</li>
           <li>Use <a href="https://eclipse-ee4j.github.io/jersey.github.io/documentation/1.19.1/client-api.html">Jersey Client API</a> on GlassFish 3.1.2.2</li>
-          <li>Use <a href="https://eclipse-ee4j.github.io/jersey.github.io/documentation/1.19.1/json.html#json.jaxb.approach.section">Jersey JAXB Based JSON support</a></li>
-          <li>Use <a href="https://www.javadoc.io/doc/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.8.9/com/fasterxml/jackson/jaxrs/json/JacksonJaxbJsonProvider.html">both Jackson and JAXB annotations for flexible configuration</a></li>
+          <li>Use <a href="https://eclipse-ee4j.github.io/jersey.github.io/documentation/1.19.1/json.html#json.pojo.approach.section">Jersey POJO Based JSON support</a></li>
           <li>Use customized HTTPSProperties (with X509TrustManager and SSLContext) of ClientConfig to trust all certificates</li>
         </ol>
         <div id="codeDiv-20210527" style="display: none">
-          [Java code in Jersey client]
+          <h3>Java code in Jersey client</h3>
           <br>
           <textarea class="code">
 @Schedule(hour = "*/2")
