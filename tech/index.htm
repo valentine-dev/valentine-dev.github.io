@@ -41,94 +41,91 @@
           <br>
           <textarea class="code">
 @Schedule(hour = "*/2")
-    public void updateVisitorUsername() {
-        try {
-        	logger.log(Level.INFO,"Running scheduled task: Get new visitors and update their usernames in DB2.");
-            
-        	// get list of new visitors
-        	Client restClient = getTrustingAllCertsJerseyClient();
-        	WebResource resource = restClient.resource(WORKDAY_CACHE_TABLE_URL_NEW_VISITORS);
-            try {
-            	ClientResponse clientResponse = resource
-            			.type(MediaType.APPLICATION_JSON)
-            			.accept(MediaType.APPLICATION_JSON)
-            			.header(WORKDAY_CACHE_TABLE_HEADER_API_KEY, WORKDAY_CACHE_TABLE_API_KEY)
-            	        .get(ClientResponse.class);
-            	
-        		if (clientResponse != null) {
-        			if (clientResponse.getClientResponseStatus() == ClientResponse.Status.OK) {
-	            	    List<WorkdayWorker> response = Arrays.asList(clientResponse.getEntity(WorkdayWorker[].class));
-	            	    
-	            	    logger.log(Level.INFO, "Number of new visitors: [" + response.size() + "]");
-	            	    
-		            	for (WorkdayWorker worker : response) {
-		            		
-		            		// TODO: update username in DB2
-		            		logger.log(Level.INFO, String.format("Updated visitor %s %s (id=%d)", worker.getFirst_name(), worker.getLast_name(), worker.getId()));
-		            	}
-		            	
-		            	logger.log(Level.INFO, "Usernames of new visitors have been udpated successfully");
-        			} else {
-        				logger.log(Level.SEVERE, "Reponse status is: " + clientResponse.getStatus() + " - " + clientResponse.getClientResponseStatus());
-        			}
-        		} else {
-        			logger.log(Level.SEVERE, "UpdateVisitorUsername: No data fetched from Workday Cache Table");
-            	}
-            } catch (UniformInterfaceException e) { //This exception is thrown if the status code >= 300
-            	logger.log(Level.SEVERE, "UniformInterfaceException was thrown by calling " + WORKDAY_CACHE_TABLE_URL_NEW_VISITORS, e);
-            }
-        } catch (Throwable t) {
-            logger.log(Level.SEVERE, "An exception was thrown in a scheduled method:", t);
-        }
+public void updateVisitorUsername() {
+	try {
+		logger.log(Level.INFO,"Running scheduled task: Get new visitors and update their usernames in DB2.");
+
+		// get list of new visitors
+		Client restClient = getTrustingAllCertsJerseyClient();
+		WebResource resource = restClient.resource(WORKDAY_CACHE_TABLE_URL_NEW_VISITORS);
+		try {
+		ClientResponse clientResponse = resource
+			.type(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON)
+			.header(WORKDAY_CACHE_TABLE_HEADER_API_KEY, WORKDAY_CACHE_TABLE_API_KEY)
+			.get(ClientResponse.class);
+
+		if (clientResponse != null) {
+			if (clientResponse.getClientResponseStatus() == ClientResponse.Status.OK) {
+				List<WorkdayWorker> response = Arrays.asList(clientResponse.getEntity(WorkdayWorker[].class));
+			logger.log(Level.INFO, "Number of new visitors: [" + response.size() + "]");
+
+			for (WorkdayWorker worker : response) {
+				// TODO: update username in DB2
+				logger.log(Level.INFO, String.format("Updated visitor %s %s (id=%d)", worker.getFirst_name(), worker.getLast_name(), worker.getId()));
+			}
+
+			logger.log(Level.INFO, "Usernames of new visitors have been udpated successfully");
+			} else {
+				logger.log(Level.SEVERE, "Reponse status is: " + clientResponse.getStatus() + " - " + clientResponse.getClientResponseStatus());
+			}
+		} else {
+			logger.log(Level.SEVERE, "UpdateVisitorUsername: No data fetched from Workday Cache Table");
+		}
+		} catch (UniformInterfaceException e) { //This exception is thrown if the status code >= 300
+		logger.log(Level.SEVERE, "UniformInterfaceException was thrown by calling " + WORKDAY_CACHE_TABLE_URL_NEW_VISITORS, e);
+		}
+	} catch (Throwable t) {
+		logger.log(Level.SEVERE, "An exception was thrown in a scheduled method:", t);
+	}
+}
+
+private Client getTrustingAllCertsJerseyClient() {
+
+	TrustManager[] trustManagers = new X509TrustManager[] { new X509TrustManager() {
+
+		@Override
+		public X509Certificate[] getAcceptedIssuers() {
+		return null;
+		}
+
+		@Override
+		public void checkClientTrusted(X509Certificate[] certs, String authType) {
+
+		}
+
+		@Override
+		public void checkServerTrusted(X509Certificate[] certs, String authType) {
+
+		}
+	}};
+	HostnameVerifier hostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
+    try {
+		SSLContext ctx = SSLContext.getInstance(SSLCONTEXT_ALGORITHM_SSL);
+		ctx.init(null, trustManagers, null);
+
+		ClientConfig config = new DefaultClientConfig(); 
+		Map<String, Object> properties = config.getProperties();
+		properties.put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, new HTTPSProperties(hostnameVerifier, ctx));
+		config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		return Client.create(config);
+    } catch (KeyManagementException | NoSuchAlgorithmException e) {
+		logger.log(Level.SEVERE, "An exception was thrown when setting up SSLContext:", e);
+        throw new RuntimeException(e);
     }
-    
-    private Client getTrustingAllCertsJerseyClient() {
-    	
-    	TrustManager[] trustManagers = new X509TrustManager[] { new X509TrustManager() {
-
-    	    @Override
-    	    public X509Certificate[] getAcceptedIssuers() {
-    	        return null;
-    	    }
-
-    	    @Override
-    	    public void checkClientTrusted(X509Certificate[] certs, String authType) {
-
-    	    }
-
-    	    @Override
-    	    public void checkServerTrusted(X509Certificate[] certs, String authType) {
-
-    	    }
-    	}};
-    	HostnameVerifier hostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
-    	try {
-	    	SSLContext ctx = SSLContext.getInstance(SSLCONTEXT_ALGORITHM_SSL);
-	    	ctx.init(null, trustManagers, null);
-	    	
-	    	ClientConfig config = new DefaultClientConfig(); 
-	    	Map<String, Object> properties = config.getProperties();
-	    	properties.put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, new HTTPSProperties(hostnameVerifier, ctx));
-	    	config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-	    	return Client.create(config);
-    	} catch (KeyManagementException | NoSuchAlgorithmException e) {
-    		logger.log(Level.SEVERE, "An exception was thrown when setting up SSLContext:", e);
-            throw new RuntimeException(e);
-        }
-    }
+}
             </textarea>        
             <hr>
           [Java code in simple POJO format]
             <br/>
             <textarea class="code">
 public class Email {
-
-	private String email;
+    private String email;
     private String email_id;
     private int id;
     private int workday_worker_id;
     
-	public String getEmail() {
+    public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
@@ -153,7 +150,6 @@ public class Email {
 		this.id = id;
 	}
 }
-
             </textarea>
           <hr>
           [Maven pom.xml]
@@ -274,11 +270,11 @@ private Client getTrustingAllCertsJerseyClient() {
 public class Email {
 
   private String email;
-    private String email_id;
-    private boolean primary;
-    @XmlElement(name="public")
-    private boolean publicEmail;
-    private int workday_worker_id;
+  private String email_id;
+  private boolean primary;
+  @XmlElement(name="public")
+  private boolean publicEmail;
+  private int workday_worker_id;
 
   public String getEmail() {
     return email;
