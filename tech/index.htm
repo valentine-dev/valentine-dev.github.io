@@ -12,6 +12,16 @@
     ul li.problem:before  { content: '❓';}
     ul li.solution:before { content: '✅';}
     </style>
+    <script>
+      function showCodeDiv(divId) {
+        var x = document.getElementById(divId);
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+    </script>
 </head>
 <body>
   <h2 title="eTransfer less than $10 to donations@enjoyit.ca to help maintain this website">&#128151; Donations</h2>
@@ -20,7 +30,7 @@
   <p>2021-05-24: Schedule a job on Java EE 6 server to call REST API with JSON 
     <ul>
       <li class="problem"> Problem: Use HTTPS trusting all certificates and receive a JSON array </li>
-      <li class="solution"> Solution: 
+      <li class="solution"> Solution: <a onclick="showCodeDiv('codeDiv-20210524')">Show me the code</a>
         <ol>
           <li>Use <a href="https://docs.oracle.com/javaee/6/tutorial/doc/bnboy.html">EJB Timer service (automatic timer)</a> on GlassFish 3.1.2.2</li>
           <li>Use <a href="https://eclipse-ee4j.github.io/jersey.github.io/documentation/1.19.1/client-api.html">Jersey Client API</a> on GlassFish 3.1.2.2</li>
@@ -28,6 +38,9 @@
           <li>Use <a href="https://www.javadoc.io/doc/com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/2.8.9/com/fasterxml/jackson/jaxrs/json/JacksonJaxbJsonProvider.html">both Jackson and JAXB annotations for flexible configuration</a></li>
           <li>Use customized HTTPSProperties (with X509TrustManager and SSLContext) of ClientConfig to trust all certificates</li>
         </ol>
+        <div id="codeDiv-20210524">
+          This is my DIV element.
+        </div>
     </ul>
   </p>
   <p>100% disk usage on laptop
