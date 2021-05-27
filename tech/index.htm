@@ -13,7 +13,6 @@
       ul li.solution:before { content: '✅';}
       div.code {
         width: 100%;
-        padding: 50px 0;
         background-color: lightblue;
         margin-top: 20px;
         display: none;
@@ -39,7 +38,7 @@
           
           <ul>
             <li>Java code in Jersey client</li>
-          <textarea style="border:0; width=100%;">
+          <textarea style="border:0; width=100%; resize:none; height=100px;">
           @Schedule(hour = "*/2")
           public void updateVisitorUsername() {
               try {
@@ -118,7 +117,7 @@
           }
           </textarea>
           <li>Java code in simple JAXB bean implementation</li>
-          <textarea style="border:0; width=100%;">
+          <textarea style="border:0; width=100%; resize:none; height=100px;">
           @XmlRootElement
           public class Email {
 
@@ -162,7 +161,7 @@
           }
           </textarea>
             <li>Maven pom.xml</li>
-          <textarea style="border:0; width=100%;">
+          <textarea style="border:0; width=100%; resize:none; height=100px;">
             <dependency>
               <groupId>com.sun.jersey</groupId>
               <artifactId>jersey-client</artifactId>
