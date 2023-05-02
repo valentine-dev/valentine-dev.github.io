@@ -5,3 +5,12 @@ ul {
 ul li:before { 
   content: '✅';
 }
+
+.FlexContainer {
+  display: flex;
+}
+
+.FlexItemPhoto {
+  flex: none;
+  
+}
